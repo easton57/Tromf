@@ -1,0 +1,84 @@
+/* Main CSS styles for Tron game */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#game-container {
+    border: 3px solid #00ffff;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.5),
+        0 0 40px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    overflow: hidden;
+    background-color: #0a0a0a;
+}
+
+#game {
+    display: block;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* Glow animation for container */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(0, 255, 255, 0.5),
+            0 0 40px rgba(0, 255, 255, 0.3),
+            inset 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(0, 255, 255, 0.7),
+            0 0 60px rgba(0, 255, 255, 0.5),
+            inset 0 0 30px rgba(0, 255, 255, 0.2);
+    }
+}
+
+#game-container {
+    animation: glow 3s ease-in-out infinite;
+}
+
+/* Responsive design */
+@media (max-width: 700px) {
+    #game-container {
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+        animation: none;
+    }
+    
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00dddd;
+}
+

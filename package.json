@@ -1,0 +1,25 @@
+{
+  "name": "vibe-game",
+  "version": "1.0.0",
+  "description": "A Phaser game project",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "npx http-server . -p 8080 -o",
+    "dev": "npx http-server . -p 8080 -o",
+    "stop": "pkill -f 'http-server.*8080' || killall -9 node",
+    "server": "node server.js",
+    "dev-server": "node server.js"
+  },
+  "keywords": ["phaser", "game", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^3.80.1",
+    "ws": "^8.14.2",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
+
