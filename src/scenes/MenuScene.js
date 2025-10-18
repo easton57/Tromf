@@ -13,7 +13,7 @@ export class MenuScene extends Phaser.Scene {
         this.registry.remove('onlineMode');
         
         // Title
-        const title = this.add.text(centerX, 100, 'TRON', {
+        const title = this.add.text(centerX, 100, 'TROMF', {
             fontSize: '72px',
             fill: '#00ffff',
             fontFamily: 'Arial, sans-serif',
