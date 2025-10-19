@@ -38,4 +38,5 @@ const game = new Phaser.Game(config);
 console.log('Tromf Light Cycle Battle - Game Started');
 console.log('Controls:');
 console.log('  Player: Arrow Keys');
+console.log('  Touch Controls: Left side = Turn Left, Right side = Turn Right');
 console.log('  Enemies: AI Controlled');

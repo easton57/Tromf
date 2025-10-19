@@ -45,6 +45,9 @@ export class GameScene extends Phaser.Scene {
         // Create UI
         this.createUI();
         
+        // Create touch control indicators
+        this.createTouchControls();
+        
         // Countdown before start
         this.startCountdown();
     }
@@ -101,6 +104,159 @@ export class GameScene extends Phaser.Scene {
             } else if (key === controls.right || key === 'ARROWRIGHT' && controls.right === 'RIGHT') {
                 humanPlayer.setDirection('RIGHT');
             }
+        });
+        
+        // Add touch controls for mobile devices
+        this.setupTouchControls();
+    }
+    
+    setupTouchControls() {
+        // Add touch event listeners
+        this.input.on('pointerdown', (pointer) => {
+            if (!this.gameStarted) return;
+            
+            const humanPlayer = this.players[0]; // First player is always human
+            if (!humanPlayer.alive) return;
+            
+            // Determine which side of the screen was touched
+            const screenWidth = GAME_WIDTH;
+            const touchX = pointer.x;
+            
+            // Left half of screen = turn left, right half = turn right
+            if (touchX < screenWidth / 2) {
+                // Left side - turn left relative to current direction
+                this.turnLeft(humanPlayer);
+            } else {
+                // Right side - turn right relative to current direction
+                this.turnRight(humanPlayer);
+            }
+        });
+        
+        // Also handle touch events for mobile
+        this.input.on('touchstart', (pointer) => {
+            if (!this.gameStarted) return;
+            
+            const humanPlayer = this.players[0]; // First player is always human
+            if (!humanPlayer.alive) return;
+            
+            // Determine which side of the screen was touched
+            const screenWidth = GAME_WIDTH;
+            const touchX = pointer.x;
+            
+            // Left half of screen = turn left, right half = turn right
+            if (touchX < screenWidth / 2) {
+                // Left side - turn left relative to current direction
+                this.turnLeft(humanPlayer);
+            } else {
+                // Right side - turn right relative to current direction
+                this.turnRight(humanPlayer);
+            }
+        });
+    }
+    
+    turnLeft(player) {
+        // Turn left relative to current direction
+        const currentDirection = player.direction;
+        let newDirection;
+        
+        switch (currentDirection) {
+            case 'UP':
+                newDirection = 'LEFT';
+                break;
+            case 'DOWN':
+                newDirection = 'RIGHT';
+                break;
+            case 'LEFT':
+                newDirection = 'DOWN';
+                break;
+            case 'RIGHT':
+                newDirection = 'UP';
+                break;
+        }
+        
+        player.setDirection(newDirection);
+    }
+    
+    turnRight(player) {
+        // Turn right relative to current direction
+        const currentDirection = player.direction;
+        let newDirection;
+        
+        switch (currentDirection) {
+            case 'UP':
+                newDirection = 'RIGHT';
+                break;
+            case 'DOWN':
+                newDirection = 'LEFT';
+                break;
+            case 'LEFT':
+                newDirection = 'UP';
+                break;
+            case 'RIGHT':
+                newDirection = 'DOWN';
+                break;
+        }
+        
+        player.setDirection(newDirection);
+    }
+    
+    createTouchControls() {
+        // Create visual indicators for touch controls
+        const screenWidth = GAME_WIDTH;
+        const screenHeight = GAME_HEIGHT;
+        
+        // Left side indicator
+        this.leftTouchIndicator = this.add.graphics();
+        this.leftTouchIndicator.lineStyle(2, 0x00ffff, 0.3);
+        this.leftTouchIndicator.strokeRect(0, 0, screenWidth / 2, screenHeight);
+        
+        // Add subtle text labels
+        this.leftTouchText = this.add.text(screenWidth / 4, screenHeight - 50, 'TURN LEFT', {
+            fontSize: '18px',
+            fill: '#00ffff',
+            fontFamily: 'Arial, sans-serif',
+            fontStyle: 'bold'
+        });
+        this.leftTouchText.setOrigin(0.5);
+        this.leftTouchText.setAlpha(0.4);
+        
+        // Right side indicator
+        this.rightTouchIndicator = this.add.graphics();
+        this.rightTouchIndicator.lineStyle(2, 0x00ffff, 0.3);
+        this.rightTouchIndicator.strokeRect(screenWidth / 2, 0, screenWidth / 2, screenHeight);
+        
+        this.rightTouchText = this.add.text(screenWidth * 3 / 4, screenHeight - 50, 'TURN RIGHT', {
+            fontSize: '18px',
+            fill: '#00ffff',
+            fontFamily: 'Arial, sans-serif',
+            fontStyle: 'bold'
+        });
+        this.rightTouchText.setOrigin(0.5);
+        this.rightTouchText.setAlpha(0.4);
+        
+        // Set depth to be behind game elements but visible
+        this.leftTouchIndicator.setDepth(5);
+        this.rightTouchIndicator.setDepth(5);
+        this.leftTouchText.setDepth(6);
+        this.rightTouchText.setDepth(6);
+        
+        // Add subtle pulsing animation to make them more noticeable
+        this.tweens.add({
+            targets: [this.leftTouchIndicator, this.rightTouchIndicator],
+            alpha: 0.1,
+            duration: 2000,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+        
+        this.tweens.add({
+            targets: [this.leftTouchText, this.rightTouchText],
+            alpha: 0.2,
+            duration: 2000,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
         });
     }
     
